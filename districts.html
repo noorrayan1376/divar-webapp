@@ -28,73 +28,528 @@
     const tg = window.Telegram.WebApp;
     tg.expand();
 
-    // 🔴 لیست نمونه محله‌ها (بعداً میتونی کاملترش کنی)
-    const districts = [
-      { id: "1", name: "سعادت‌آباد" },
-      { id: "2", name: "شهرک غرب" },
-      { id: "3", name: "نیاوران" },
-      { id: "4", name: "تجریش" },
-      { id: "5", name: "پونک" },
-      { id: "6", name: "صادقیه" },
-      { id: "7", name: "تهرانپارس" },
-      { id: "8", name: "ونک" },
-      { id: "9", name: "جنت‌آباد" },
-      { id: "10", name: "ستارخان" }
-    ];
+    // 🟢 لیست کامل تمام محله‌ها
+    const districts = {
+    "آبشار": { "id": "992", "slug": "abshar" },
+    "آبشار تهران (دریاچه)": { "id": "907", "slug": "abshar-tehran" },
+    "آجودانیه": { "id": "40", "slug": "ajoodanieh" },
+    "آذربایجان": { "id": "654", "slug": "azarbaijan" },
+    "آذری": { "id": "198", "slug": "azari" },
+    "آرارات": { "id": "87", "slug": "ararat" },
+    "آرژانتین": { "id": "301", "slug": "arjantin" },
+    "آزادشهر": { "id": "4338", "slug": "azadshahr-tehran" },
+    "آسمان": { "id": "925", "slug": "aseman" },
+    "آشتیانی": { "id": "951", "slug": "ashtiyani" },
+    "آهنگ": { "id": "273", "slug": "ahang" },
+    "آهنگران (سراسیاب دولاب)": { "id": "970", "slug": "sarasiab-doolab" },
+    "ائمه اطهار": { "id": "291", "slug": "farah-abad" },
+    "اباذر": { "id": "173", "slug": "aboozar" },
+    "ابن بابویه قدیمی": { "id": "979", "slug": "ebn-babevayh" },
+    "ابوذر": { "id": "1020", "slug": "abouzar" },
+    "اتابک": { "id": "1019", "slug": "atabak" },
+    "اتحاد": { "id": "990", "slug": "etehad" },
+    "اختیاریه": { "id": "68", "slug": "ekhtiyariyeh" },
+    "اراج قدیمی": { "id": "943", "slug": "araj" },
+    "اراضی عباس آباد": { "id": "4172", "slug": "arazi-abbas-abad" },
+    "ارامنه": { "id": "131", "slug": "aramaneh" },
+    "ارجمندی راد": { "id": "4149", "slug": "arjamandi-rad" },
+    "ارم": { "id": "160", "slug": "eram" },
+    "ازگل": { "id": "53", "slug": "ozgol" },
+    "استاد معین": { "id": "195", "slug": "ostad-moein" },
+    "استخر": { "id": "112", "slug": "estakhr" },
+    "استقلال": { "id": "4174", "slug": "esteghlal" },
+    "اسفندیاری": { "id": "256", "slug": "esfandyari" },
+    "اسکندری": { "id": "283", "slug": "eskandari" },
+    "افسریه جنوبی": { "id": "4182", "slug": "afsariye-jonubi" },
+    "افسریه شمالی": { "id": "249", "slug": "afsariyeh" },
+    "اقدسیه (شهرری)": { "id": "4224", "slug": "aghadasiye" },
+    "اقدسیه": { "id": "48", "slug": "aghdasieh" },
+    "اکباتان": { "id": "167", "slug": "ekbatan" },
+    "المهدی": { "id": "143", "slug": "almahdi" },
+    "الهیه": { "id": "85", "slug": "elahiyeh" },
+    "امامت": { "id": "953", "slug": "tehran-emamat" },
+    "امام حسین": { "id": "287", "slug": "emam-hossein" },
+    "امام خمینی": { "id": "4185", "slug": "emam-khomeyni-tehran" },
+    "امام زاده حسن": { "id": "1021", "slug": "imamzadeh-hasan" },
+    "امام زاده عبدالله": { "id": "4132", "slug": "emam-zade-abdollah" },
+    " امام زاده قاسم (نیاوران)": { "id": "45", "slug": "emamzade-ghasem" },
+    "امانیه": { "id": "360", "slug": "amaniyeh" },
+    "امجدیه (خاقانی)": { "id": "937", "slug": "tehran-khaghani" },
+    "امیرآباد": { "id": "91", "slug": "amir-abad" },
+    "امیر بهادر": { "id": "276", "slug": "amir-bahador" },
+    "امیریه": { "id": "277", "slug": "amiriyeh" },
+    "امین آباد": { "id": "4232", "slug": "aminabad-rey" },
+    "امین حضور": { "id": "993", "slug": "aminhozour" },
+    "انبار نفت": { "id": "4157", "slug": "anbar-naft" },
+    "اوقاف": { "id": "115", "slug": "oghaf" },
+    "اوین": { "id": "57", "slug": "evin" },
+    "ایران": { "id": "991", "slug": "tehran-iran" },
+    "ایرانشهر": { "id": "298", "slug": "iranshahr" },
+    "ایوانک": { "id": "927", "slug": "eivanak" },
+    "باروت کوبی": { "id": "4228", "slug": "barut-kubi" },
+    "بازار": { "id": "93", "slug": "bazaar" },
+    "بازار آهن": { "id": "4229", "slug": "bazar-ahan-rey" },
+    "بازار گل خاوران": { "id": "4234", "slug": "bazar-gol-khavaran" },
+    "باشگاه نفت": { "id": "4179", "slug": "bashgah-naft" },
+    "باغ خزانه": { "id": "1022", "slug": "bagh-khazaneh" },
+    "باغ رضوان قدیمی": { "id": "217", "slug": "baq-e-rezavan" },
+    "باغ فردوس": { "id": "930", "slug": "bagh-ferdows" },
+    "باغ فیض": { "id": "920", "slug": "bagh-feyz" },
+    "بروجردی": { "id": "1023", "slug": "shahid-borujerdi" },
+    "بریانک": { "id": "197", "slug": "beryanak" },
+    "بلوار کشاورز": { "id": "208", "slug": "bolvar-e-keshavarz" },
+    "بلورسازی": { "id": "1007", "slug": "bolursazi" },
+    "بنی‌هاشم": { "id": "128", "slug": "kazem-abad" },
+    "بهار": { "id": "938", "slug": "bahar" },
+    "بهاران": { "id": "154", "slug": "baharan" },
+    "بهارستان": { "id": "92", "slug": "baharestan" },
+    "بهجت‌آباد": { "id": "297", "slug": "behjat-abad" },
+    "بهداشت": { "id": "917", "slug": "behdasht" },
+    "بهمن یار": { "id": "254", "slug": "bahman-yar" },
+    "بوستان بعثت (باغ آذری)": { "id": "4128", "slug": "bostan-besat-bagh-azari" },
+    "بوستان جنگلی لویزان": { "id": "4319", "slug": "bustan-jangali-lavizan" },
+    "بوستان چیتگر": { "id": "4169", "slug": "bostan-chitgar" },
+    "بوستان سرخه حصار": { "id": "946", "slug": "sorkhe-hesar" },
+    "بوستان شیان": { "id": "103", "slug": "shian" },
+    "بوستان ولایت": { "id": "4164", "slug": "bostan-velayat" },
+    "بی‌بی شهر بانو": { "id": "4227", "slug": "bibi-shahr-banoo" },
+    "بیسیم": { "id": "1015", "slug": "bisim" },
+    "پاتریس لومومبا قدیمی": { "id": "206", "slug": "baqerkhan" },
+    "پادگان امام حسین": { "id": "4143", "slug": "padgan-emam-hossein" },
+    "پارک شهر": { "id": "4186", "slug": "park-shahr" },
+    "پاسداران": { "id": "67", "slug": "pasdaran" },
+    "پامنار": { "id": "280", "slug": "pamenar" },
+    "پردیسان": { "id": "138", "slug": "shahrak-e-jandarmeri" },
+    "پرستار": { "id": "965", "slug": "parastar" },
+    "پرواز": { "id": "922", "slug": "parvaz" },
+    "پونک": { "id": "82", "slug": "poonak" },
+    "پیروزی قدیمی": { "id": "292", "slug": "pirouzi" },
+    "پیکان شهر": { "id": "4134", "slug": "peykan-shahr" },
+    "تاکسیرانی": { "id": "966", "slug": "taxirani" },
+    "تجریش": { "id": "61", "slug": "tajrish" },
+    "تختی": { "id": "236", "slug": "shahrak-e-takhti" },
+    "ترمینال جنوب": { "id": "4333", "slug": "terminal-jonub" },
+    "ترمینال غرب": { "id": "4311", "slug": "terminal-gharb" },
+    "تسلیحات": { "id": "956", "slug": "taslihat" },
+    "تصفیه خانه": { "id": "4233", "slug": "tasfiye-khane" },
+    "تقی آباد": { "id": "4225", "slug": "taghi-abad" },
+    "تهرانپارس جنوبی": { "id": "4175", "slug": "tehran-pars" },
+    "تهرانپارس شرقی": { "id": "109", "slug": "east-tehranpars" },
+    "تهرانپارس غربی": { "id": "108", "slug": "west-tehranpars" },
+    "تهرانسر شرقی": { "id": "178", "slug": "tehransar" },
+    "تهرانسر شمالی": { "id": "4148", "slug": "tehransar-shomali" },
+    "تهرانسر غربی": { "id": "4177", "slug": "tehransar-gharbi" },
+    "تهرانسر مرکزی": { "id": "4178", "slug": "tehransar-markazi" },
+    "تهران‌نو": { "id": "123", "slug": "tehran-no" },
+    "تهران‌ویلا": { "id": "201", "slug": "tehranvila" },
+    "توحید": { "id": "203", "slug": "tohid" },
+    "تولید دارو": { "id": "916", "slug": "tolid-daroo" },
+    "جابری": { "id": "971", "slug": "jaberi" },
+    "جردن": { "id": "86", "slug": "jordan" },
+    "جلیلی": { "id": "1013", "slug": "jalili" },
+    "جماران (نیاوران)": { "id": "44", "slug": "jamaran" },
+    "جمال‌زاده": { "id": "204", "slug": "jamalzadeh" },
+    "جمهوری": { "id": "94", "slug": "jomhouri" },
+    "جنت‌آباد جنوبی": { "id": "148", "slug": "south-janat-abad" },
+    "جنت‌آباد شمالی": { "id": "145", "slug": "north-janat-abad" },
+    "جنت‌آباد مرکزی": { "id": "146", "slug": "central-janat-abad" },
+    "جهاد": { "id": "933", "slug": "jahad" },
+    "جوادیه": { "id": "265", "slug": "javadiyeh" },
+    "جوادیه تهرانپارس": { "id": "947", "slug": "javadiyeh-tehran-pars" },
+    "جوانمردان (اندیشه)": { "id": "156", "slug": "andisheh" },
+    "جوانمرد قصاب قدیمی": { "id": "231", "slug": "javanmard-e-ghasab" },
+    "جوانمرد قصاب": { "id": "4042", "slug": "javanmard-ghassab" },
+    "جی": { "id": "196", "slug": "jey" },
+    "جیحون": { "id": "657", "slug": "jeyhoun" },
+    "چهارصد دستگاه": { "id": "251", "slug": "charsad-dastgah" },
+    "چوب تراش": { "id": "4160", "slug": "chub-tarash" },
+    "چیتگر جنوبی": { "id": "306", "slug": "chitgar" },
+    "چیتگر شمالی": { "id": "4136", "slug": "chitgar-shomali" },
+    "چیذر": { "id": "63", "slug": "chizar" },
+    "حافظیه": { "id": "952", "slug": "hafezie" },
+    "حبیب الله": { "id": "4161", "slug": "habibollah" },
+    "حر": { "id": "282", "slug": "hor-square" },
+    "حسن‌آباد": { "id": "99", "slug": "hassan-abad" },
+    "حسن‌آباد باقرفر قدیمی": { "id": "216", "slug": "hasan-abad-baqer-far" },
+    "حسین‌آباد": { "id": "1025", "slug": "tehran-hosein-abad" },
+    "حشمتیه": { "id": "130", "slug": "heshamatiyeh" },
+    "حصار بوعلی": { "id": "942", "slug": "hesar-booali" },
+    "حصارک": { "id": "919", "slug": "tehran-hesarak" },
+    "حکمت": { "id": "931", "slug": "hekmat" },
+    "حکیمیه": { "id": "121", "slug": "hakimiyeh" },
+    "حمزه‌آباد قدیمی": { "id": "985", "slug": "hamzeh-abad" },
+    "حمزه‌آباد": { "id": "4049", "slug": "hamzeabad" },
+    "خاک سفید": { "id": "948", "slug": "khak-sefid" },
+    "خانی‌آباد": { "id": "255", "slug": "khani-abad" },
+    "خانی آباد نو جنوبی": { "id": "989", "slug": "khani-abad-no" },
+    "خانی آباد نو شمالی": { "id": "4137", "slug": "khaniabad-no-shomali" },
+    "خاوران": { "id": "1017", "slug": "khavaran" },
+    "خرمشهر": { "id": "999", "slug": "salamat" },
+    "خزانه": { "id": "253", "slug": "khazaneh" },
+    "خلازیر": { "id": "4332", "slug": "khalazir" },
+    "خلیج فارس": { "id": "188", "slug": "khalij-e-fars" },
+    "خواجه نصیر طوسی": { "id": "286", "slug": "eshrat-abad" },
+    "خواجه نظام الملک": { "id": "958", "slug": "khaje-nezam-molk" },
+    "دارآباد": { "id": "47", "slug": "darabad" },
+    "دانشگاه تهران قدیمی": { "id": "209", "slug": "tehran-university" },
+    "دانشگاه شریف": { "id": "928", "slug": "university-of-sharif" },
+    "دبستان": { "id": "127", "slug": "dabestan" },
+    "درب دوم": { "id": "940", "slug": "darb-dowom" },
+    "دربند": { "id": "54", "slug": "darband" },
+    "درختی": { "id": "926", "slug": "sepehr" },
+    "دردشت": { "id": "118", "slug": "dardasht" },
+    "درکه": { "id": "58", "slug": "darakeh" },
+    "دروازه شمیران": { "id": "285", "slug": "darvazeh-shemiran" },
+    "دروس": { "id": "71", "slug": "darrous" },
+    "دریا": { "id": "929", "slug": "darya" },
+    "دریاچه شهدای خلیج فارس": { "id": "1031", "slug": "chitgar-lake" },
+    "دریان‌نو": { "id": "200", "slug": "daryan-no" },
+    "دزاشیب": { "id": "66", "slug": "dezashib" },
+    "دژکام": { "id": "4130", "slug": "dezhkam" },
+    "دستغیب": { "id": "1003", "slug": "shahid-dastgheyb" },
+    "دکتر هوشیار": { "id": "1029", "slug": "dr-hoshyar" },
+    "دهقان": { "id": "962", "slug": "dehqan" },
+    "دهکده المپیک": { "id": "161", "slug": "dehkade-olympic" },
+    "دهم فروردین": { "id": "4151", "slug": "dahom-farvardin" },
+    "ده‌ونک": { "id": "81", "slug": "vanak-village" },
+    "دولاب": { "id": "272", "slug": "doolab" },
+    "دولت‌آباد قدیمی": { "id": "233", "slug": "dolat-abad" },
+    "دولت‌آباد": { "id": "4043", "slug": "dowlatabad-rey" },
+    "دولتخواه جنوبی": { "id": "918", "slug": "dolatkhah" },
+    "دولتخواه شمالی": { "id": "4181", "slug": "dolatkhah-shomali" },
+    "دیلمان": { "id": "4044", "slug": "deylaman-rey" },
+    "دیلمان قدیمی": { "id": "228", "slug": "south-deylaman" },
+    "راه آهن": { "id": "4153", "slug": "rah-ahan-tehran" },
+    "زاهد گیلانی": { "id": "964", "slug": "zahed-gilani" },
+    "زرکش": { "id": "955", "slug": "zarkesh" },
+    "زرگنده": { "id": "84", "slug": "zargandeh" },
+    "زعفرانیه": { "id": "56", "slug": "zafaraniyeh" },
+    "زمزم": { "id": "1009", "slug": "zamzam" },
+    "زنجان جنوبی": { "id": "1001", "slug": "tehran-zanjan" },
+    "زهتابی": { "id": "268", "slug": "zehtabi" },
+    "زیبادشت": { "id": "162", "slug": "shahrak-e-cheshmeh" },
+    "سازمان آب": { "id": "157", "slug": "sazman-ab" },
+    "سازمان برنامه جنوبی": { "id": "4133", "slug": "sazman-barname-jonubi" },
+    "سازمان برنامه شمالی": { "id": "158", "slug": "sazamn-barnameh" },
+    "سبلان قدیمی": { "id": "950", "slug": "sabalan" },
+    "سبلان (لشگر)": { "id": "949", "slug": "tehran-lashkar" },
+    "ستارخان": { "id": "205", "slug": "sattarkhan" },
+    "سجاد": { "id": "1014", "slug": "imam-sajjad" },
+    "سرتخت": { "id": "4050", "slug": "sartakht-rey" },
+    "سرتخت قدیمی": { "id": "984", "slug": "sartakht" },
+    "سردارجنگل": { "id": "4312", "slug": "sardar-e-jangal" },
+    "سعادت‌آباد": { "id": "75", "slug": "saadat-abad" },
+    "سعیدآباد": { "id": "913", "slug": "saeed-abad" },
+    "سلسبیل جنوبی": { "id": "284", "slug": "sarsabil" },
+    "سلسبیل شمالی": { "id": "4131", "slug": "selsebil-shomali" },
+    "سلیمانی": { "id": "1005", "slug": "soleymani" },
+    "سنائی": { "id": "299", "slug": "motahari" },
+    "سنگلج (شاپور)": { "id": "279", "slug": "sanglaj" },
+    "سهروردی": { "id": "302", "slug": "north-sohrevardi" },
+    "سوهانک": { "id": "52", "slug": "sohanak" },
+    "سید خندان (جلفا)": { "id": "1028", "slug": "tehran-jolfa" },
+    "سیروس": { "id": "996", "slug": "sirous" },
+    "سیزده آبان": { "id": "4051", "slug": "sizdah-aban-rey" },
+    "سیزده آبان قدیمی": { "id": "983", "slug": "sizdah-aban" },
+    "سیمای ایران": { "id": "4330", "slug": "simaye-iran" },
+    "شادآباد": { "id": "189", "slug": "shadabad" },
+    "شادمان": { "id": "656", "slug": "shadman" },
+    "شارق": { "id": "957", "slug": "east-shareq" },
+    "شاهد قدیمی": { "id": "972", "slug": "shahed" },
+    "شاهین": { "id": "147", "slug": "shahin" },
+    "شبیری قدیمی": { "id": "1004", "slug": "shabiri" },
+    "شریف‌آباد قدیمی": { "id": "637", "slug": "sharifabad" },
+    "شکوفه": { "id": "969", "slug": "shokoofeh" },
+    "شکوفه (عبدل آباد)": { "id": "4165", "slug": "shokufe-abdol-abad" },
+    "شکیبا": { "id": "973", "slug": "saheb-al-zaman" },
+    "شمس‌آباد": { "id": "125", "slug": "shams-abad" },
+    "شمشیری": { "id": "915", "slug": "shamshiri" },
+    "شمیران‌نو": { "id": "106", "slug": "shemiran-no" },
+    "شهادت": { "id": "4052", "slug": "shahadat-rey" },
+    "شهادت قدیمی": { "id": "977", "slug": "shahadat" },
+    "شهرآرا": { "id": "202", "slug": "sharara" },
+    "شهران جنوبی": { "id": "152", "slug": "south-shahran" },
+    "شهران شمالی": { "id": "151", "slug": "north-shahran" },
+    "شهرری": { "id": "4223", "slug": "shahrerey" },
+    "شهر زیبا": { "id": "155", "slug": "shahr-e-ziba" },
+    "شهرک آپادانا": { "id": "169", "slug": "shahrak-e-apadana" },
+    "شهرک آتی شهر": { "id": "4138", "slug": "shahrak-ati-shahr" },
+    "شهرک آزادی": { "id": "164", "slug": "shahrak-e-azadi" },
+    "شهرک آزمایش": { "id": "4163", "slug": "shahrak-azmayesh-tehran" },
+    "شهرک آسمان": { "id": "180", "slug": "shahrak-e-aseman" },
+    "شهرک ابوذر": { "id": "259", "slug": "shahrak-e-aboozar" },
+    "شهرک استقلال": { "id": "175", "slug": "shaharak-e-esteqlal" },
+    "شهرک المهدی": { "id": "4147", "slug": "shahrak-almahdi-tehran" },
+    "شهرک الهیه غرب": { "id": "4316", "slug": "shahrak-elahiye-gharb" },
+    "شهرک امام خمینی": { "id": "190", "slug": "shahrak-e-emamkhomeyni" },
+    "شهرک امید": { "id": "113", "slug": "shahrak-e-omid" },
+    "شهرک امیرالمومنین": { "id": "271", "slug": "shahrak-e-amiralmomenin" },
+    "شهرک انصار": { "id": "166", "slug": "shahrak-e-ansar" },
+    "شهرک بعثت": { "id": "4168", "slug": "shahrak-baasat" },
+    "شهرک بوعلی": { "id": "4141", "slug": "shahrak-booli" },
+    "شهرک پاسداران": { "id": "910", "slug": "shahrak-pasdaran" },
+    "شهرک پردیسان": { "id": "4331", "slug": "shahrak-pardisan-tehran" },
+    "شهرک پرواز": { "id": "159", "slug": "shahrak-e-parvaz" },
+    "شهرک چیتگر": { "id": "311", "slug": "azad-shahr" },
+    "شهرک خرازی": { "id": "4314", "slug": "shahrak-kharazi" },
+    "شهرک دانشگاه": { "id": "1032", "slug": "shahrak-daneshgahi" },
+    "شهرک دانشگاه تهران قدیمی": { "id": "1033", "slug": "shahrak-daneshgah-tehran" },
+    "شهرک دانشگاه شریف": { "id": "1034", "slug": "sharif" },
+    "شهرک دریا": { "id": "179", "slug": "shahrak-e-darya" },
+    "شهرک رضویه": { "id": "245", "slug": "karevan" },
+    "شهرک زینبیه": { "id": "122", "slug": "zeynabeiyeh" },
+    "شهرک شریعتی": { "id": "257", "slug": "shaharak-e-shariyati" },
+    "شهرک شریفی": { "id": "260", "slug": "shaharak-e-sharifi" },
+    "شهرک شهرداری": { "id": "4176", "slug": "shahrak-shahrdari" },
+    "شهرک شهید باقری": { "id": "1030", "slug": "shahrak-shahid-bagheri" },
+    "شهرک شهید رجایی (کوی نوبنیاد)": { "id": "944", "slug": "kuy-nobonyad" },
+    "شهرک صادقیه": { "id": "4156", "slug": "shahrak-sadeghieh" },
+    "شهرک صدرا": { "id": "163", "slug": "azadi-sport-complex" },
+    "شهرک طالقانی": { "id": "187", "slug": "shahrak-e-taleghani" },
+    "شهرک علم و فناوری": { "id": "4339", "slug": "shahrak-elm-va-fanavari" },
+    "شهرک غرب": { "id": "78", "slug": "shahrak-e-gharb" },
+    "شهرک غزالی": { "id": "307", "slug": "shahrak-e-ghazali" },
+    "شهرک فردوس (حسینی)": { "id": "185", "slug": "shahrak-e-ferdows" },
+    "شهرک فرهنگیان": { "id": "911", "slug": "shahrak-farhangian" },
+    "شهرک کوهسار": { "id": "140", "slug": "shahrak-e-koohsar" },
+    "شهرک گلها": { "id": "50", "slug": "shahrak-golha" },
+    "شهرک گلها (تهرانسر)": { "id": "4184", "slug": "shahrak-golha-tehransar" },
+    "شهرک محلاتی": { "id": "51", "slug": "shahrak-e-mahalati" },
+    "شهرک مخابرات": { "id": "4170", "slug": "shahrak-mokhaberat" },
+    "شهرک نظامی": { "id": "4230", "slug": "shahrak-nezami" },
+    "شهرک نفت": { "id": "921", "slug": "shahrak-naft-district5" },
+    "شهرک هما": { "id": "4162", "slug": "shahrak-homa" },
+    "شهرک ولیعصر جنوبی": { "id": "194", "slug": "shahrak-e-vali-e-asr" },
+    "شهرک ولیعصر شمالی": { "id": "4180", "slug": "shahrak-valiasr-shomali" },
+    "شهرک یاس": { "id": "4337", "slug": "shahrak-yas-tehran" },
+    "شهمیرزادی": { "id": "974", "slug": "aref" },
+    "شهید آوینی قدیمی": { "id": "982", "slug": "shahid-avini" },
+    "شهید اسدی": { "id": "963", "slug": "shahid-asadi" },
+    "شهید بهشتی": { "id": "4222", "slug": "shahid-beheshti-rey" },
+    "شهید رجایی": { "id": "263", "slug": "eslam-abad" },
+    "شهید غیوری (ابن باویه)": { "id": "4048", "slug": "shahid-ghiyuri-ebn-baviye" },
+    "شهید فکوری": { "id": "4166", "slug": "shahid-fakuri" },
+    "شوش": { "id": "240", "slug": "shoosh" },
+    "شوش (باغ آذری)": { "id": "264", "slug": "baq-e-azari" },
+    "شیخ هادی": { "id": "281", "slug": "sheykh-hadi" },
+    "شیراز": { "id": "1035", "slug": "shirazi" },
+    "شیوا": { "id": "968", "slug": "shiva" },
+    "صاحب الزمان": { "id": "193", "slug": "shaharak-e-moslemin" },
+    "صاحبقرانیه": { "id": "4183", "slug": "sahebgharanieh" },
+    "صادقیه": { "id": "172", "slug": "sadeghiyeh" },
+    "صالح آباد جنوبی (باغ رضوان)": { "id": "4041", "slug": "saleh-abad-jonubi-bagh-rezvan" },
+    "صالح‌آباد شرقی": { "id": "4054", "slug": "salehabad-sharghi" },
+    "صالح‌آباد شرقی قدیمی": { "id": "1026", "slug": "east-saleh-abad" },
+    "صد دستگاه": { "id": "289", "slug": "sad-dastgah" },
+    "صفا": { "id": "288", "slug": "sheykh-al-raeis" },
+    "صفائیه (چشمه علی) قدیمی": { "id": "978", "slug": "safaiye" },
+    "صفاییه (چشمه علی)": { "id": "4055", "slug": "safaayie-cheshme-ali" },
+    "طرشت": { "id": "171", "slug": "tarasht" },
+    "طوس قدیمی": { "id": "1011", "slug": "tous" },
+    "طیب": { "id": "1016", "slug": "tayeb" },
+    "ظفر": { "id": "72", "slug": "zafar" },
+    "ظهیرآباد": { "id": "4045", "slug": "zahireabad" },
+    "ظهیرآباد قدیمی": { "id": "227", "slug": "zahir-abad" },
+    "عباس‌آباد (شهرری)": { "id": "4226", "slug": "abbasabad-rey" },
+    "عباس‌آباد": { "id": "300", "slug": "abbas-abad" },
+    "عباسی": { "id": "4158", "slug": "abbasi" },
+    "عبدالله‌آباد قدیمی": { "id": "1027", "slug": "abdollah-abad" },
+    "عبدل‌آباد": { "id": "220", "slug": "abdol-abad" },
+    "علایین": { "id": "4220", "slug": "alayiin" },
+    "علم و صنعت": { "id": "116", "slug": "elm-o-sanat" },
+    "علی‌آباد": { "id": "235", "slug": "south-ali-abad" },
+    "فاطمی": { "id": "210", "slug": "north-karegar" },
+    "فتح": { "id": "912", "slug": "fath" },
+    "فدک": { "id": "120", "slug": "fadak" },
+    "فرحزاد": { "id": "59", "slug": "farahzad" },
+    "فردوس": { "id": "170", "slug": "kooy-e-ferdos" },
+    "فردوسی": { "id": "994", "slug": "ferdowsi" },
+    "فرزانه": { "id": "4150", "slug": "farzane" },
+    "فرمانیه": { "id": "64", "slug": "farmaniyeh" },
+    "فرودگاه مهرآباد": { "id": "182", "slug": "mehrabad-airport" },
+    "فلاح": { "id": "199", "slug": "fallah" },
+    "فلسطین (میدان انقلاب)": { "id": "655", "slug": "enqelab" },
+    "فیروزآباد": { "id": "4231", "slug": "firuzabad-rey" },
+    "فیروزآبادی": { "id": "4056", "slug": "firuzabadi" },
+    "فیروزآبادی قدیمی": { "id": "988", "slug": "firoozabadi" },
+    "قاسم‌آباد": { "id": "961", "slug": "qasemabad" },
+    "قبا": { "id": "941", "slug": "qoba" },
+    "قزل قلعه": { "id": "211", "slug": "qezel-qaleh" },
+    "قصر فیروزه ۱": { "id": "293", "slug": "qasr-e-firoozeh-yek" },
+    "قصر فیروزه ۲": { "id": "248", "slug": "qasr-e-firooze-do" },
+    "قلمستان": { "id": "998", "slug": "qalamestan" },
+    "قلهک": { "id": "70", "slug": "gholhak" },
+    "قنات‌کوثر": { "id": "105", "slug": "ghanat-kosar" },
+    "قیام": { "id": "995", "slug": "qiam" },
+    "قیام‌دشت قدیمی": { "id": "639", "slug": "qiamdash" },
+    "قیطریه": { "id": "65", "slug": "qeytariyeh" },
+    "کاج": { "id": "959", "slug": "tehran-police" },
+    "کارخانه سیمان": { "id": "4235", "slug": "karkhane-siman" },
+    "کاشانک": { "id": "43", "slug": "kashanak" },
+    "کامرانیه": { "id": "62", "slug": "kamraniyeh" },
+    "کرمان": { "id": "945", "slug": "tehran-kerman" },
+    "کریم‌آباد قدیمی": { "id": "219", "slug": "karim-abad" },
+    "کن": { "id": "153", "slug": "kan" },
+    "کوثر": { "id": "997", "slug": "kosar" },
+    "کوهسار": { "id": "4142", "slug": "kuhsar-tehran" },
+    "کوهک": { "id": "909", "slug": "kuhak" },
+    "کوی بیمه": { "id": "168", "slug": "kooy-e-bimeh" },
+    "کوی فراز": { "id": "923", "slug": "kuy-faraz" },
+    "کوی نصر مهرآباد": { "id": "4146", "slug": "kuy-nasr-mehrabad" },
+    "کیانشهر": { "id": "241", "slug": "shahrak-e-kianshahr" },
+    "گاندی": { "id": "96", "slug": "gandi" },
+    "گرگان": { "id": "960", "slug": "tehran-gorgan" },
+    "گلاب دره": { "id": "46", "slug": "golab-dareh" },
+    "گلچین": { "id": "1012", "slug": "golchin" },
+    "گلستان (شهرک راه آهن)": { "id": "165", "slug": "west-shahrak-e-golestan" },
+    "گمرک": { "id": "275", "slug": "gomrok" },
+    "گیشا": { "id": "88", "slug": "gisha" },
+    "لاله زار": { "id": "4187", "slug": "lalezar" },
+    "لویزان": { "id": "104", "slug": "lavizan" },
+    "مبارک‌آباد بهشتی قدیمی": { "id": "214", "slug": "mobarak-abad-e-beheshti" },
+    "مجیدآباد": { "id": "110", "slug": "majid-abad" },
+    "مجیدیه": { "id": "126", "slug": "majidiyeh" },
+    "محمودیه": { "id": "60", "slug": "mahmoodiyeh" },
+    "مختاری": { "id": "4154", "slug": "mokhtari" },
+    "مخصوص": { "id": "1000", "slug": "makhsous" },
+    "مدائن": { "id": "117", "slug": "sarsabz" },
+    "مرادآباد": { "id": "141", "slug": "morad-abad" },
+    "مرزداران": { "id": "139", "slug": "marzdaran" },
+    "مروارید شهر": { "id": "4340", "slug": "morvarid-shahr" },
+    "مسعودیه": { "id": "246", "slug": "masoudieh" },
+    "مسگرآباد": { "id": "976", "slug": "mesgar-abad" },
+    "مشیریه": { "id": "243", "slug": "moshiriyeh" },
+    "مطهری": { "id": "4140", "slug": "motahhari-tehran" },
+    "مظاهری": { "id": "4155", "slug": "mazaheri" },
+    "مقدم": { "id": "1010", "slug": "moqadam" },
+    "ملک‌آباد قدیمی": { "id": "234", "slug": "malek-abad" },
+    "ملک‌آباد": { "id": "4046", "slug": "malekabad-rey" },
+    "منصوریه (پل سیمان) قدیمی": { "id": "232", "slug": "mansouriyeh" },
+    "منصوریه منگل": { "id": "4047", "slug": "mansuriye-mangal" },
+    "منیریه": { "id": "278", "slug": "moniriyeh" },
+    "مهرآباد": { "id": "914", "slug": "sar-asiyab-mehr-abad" },
+    "مهرآباد جنوبی": { "id": "186", "slug": "south-mehrabad" },
+    "مهران": { "id": "174", "slug": "hasan-abad-shomali" },
+    "مهران (سیدخندان)": { "id": "95", "slug": "seyed-khandan" },
+    "مهستان": { "id": "4313", "slug": "mahestan" },
+    "مولوی": { "id": "266", "slug": "molavi" },
+    "میدان میوه و تره‌بار مرکزی": { "id": "4129", "slug": "meydan-mive-va-terehbar-markazi" },
+    "میدان ولیعصر": { "id": "658", "slug": "valiasr" },
+    "میرداماد": { "id": "74", "slug": "mirdamad" },
+    "مینابی": { "id": "1018", "slug": "minabi" },
+    "مینای جنوبی": { "id": "975", "slug": "mina" },
+    "مینای شمالی (مخبر)": { "id": "4139", "slug": "minay-shomali-mokhber" },
+    "مینی‌سیتی (شهرک نفت)": { "id": "49", "slug": "shahrak-naft" },
+    "نارمک": { "id": "399", "slug": "narmak" },
+    "نارمک جنوبی": { "id": "954", "slug": "south-narmak" },
+    "نازی‌آباد": { "id": "252", "slug": "nazi-abad" },
+    "نبی اکرم": { "id": "967", "slug": "nabi-akram" },
+    "نجات اللهی": { "id": "936", "slug": "nejatollahi" },
+    "نصرت": { "id": "935", "slug": "nosrat" },
+    "نظام‌آباد": { "id": "132", "slug": "nezam-abad" },
+    "نظامی گنجوی (توانیر)": { "id": "934", "slug": "tavanir" },
+    "نعمت‌آباد": { "id": "262", "slug": "nemat-abad" },
+    "نگین غرب": { "id": "4315", "slug": "negin-gharb" },
+    "نمایشگاه بین المللی": { "id": "4171", "slug": "namayeshgah-beyn-olmelali" },
+    "نواب قدیمی": { "id": "312", "slug": "shahid-navab-safavi" },
+    "نیاوران": { "id": "42", "slug": "niavaran" },
+    "نیروی دریایی": { "id": "4173", "slug": "niruye-daryaei" },
+    "نیروی هوایی (پیروزی)": { "id": "134", "slug": "niroo-havayi" },
+    "نیکنام": { "id": "290", "slug": "soleymanieh" },
+    "نیلوفر": { "id": "939", "slug": "niloufar" },
+    "هاشم‌آباد": { "id": "270", "slug": "hashem-abad" },
+    "هاشم‌آباد (شهرری)": { "id": "4221", "slug": "hashemabad" },
+    "هاشمی": { "id": "1002", "slug": "hashemi" },
+    "هرندی": { "id": "4167", "slug": "harandi" },
+    "هروی": { "id": "1024", "slug": "heravi" },
+    "هزارسنگ": { "id": "924", "slug": "hezarsang" },
+    "هفت چنار": { "id": "1006", "slug": "haftchenar" },
+    "هفت حوض": { "id": "119", "slug": "haft-hoz" },
+    "هفده شهریور": { "id": "184", "slug": "kooye-e-hefdahom-e-shahrivar" },
+    "هلال احمر": { "id": "4159", "slug": "helal-ahmar-tehran" },
+    "هوانیروز": { "id": "908", "slug": "havanirooz" },
+    "والفجر": { "id": "932", "slug": "shahrak-valfajr" },
+    "والفجر (افسریه)": { "id": "4152", "slug": "valfajr-afsarieh" },
+    "وحیدیه": { "id": "133", "slug": "vahidiyeh" },
+    "وردآورد": { "id": "374", "slug": "vardavard" },
+    "ورزشگاه آزادی": { "id": "4135", "slug": "varzeshgah-azadi" },
+    "وصفنارد": { "id": "269", "slug": "vasfenard" },
+    "ولنجک": { "id": "55", "slug": "velenjak" },
+    "ولی آباد": { "id": "4053", "slug": "valiabad" },
+    "ونک": { "id": "315", "slug": "vanak" },
+    "ویلاشهر": { "id": "308", "slug": "shahrak-e-vilashahr" },
+    "یاخجی آباد": { "id": "250", "slug": "yakhchi-abad" },
+    "یافت‌آباد": { "id": "1008", "slug": "tehran-shandiz" },
+    "یافت آباد جنوبی": { "id": "192", "slug": "yaftabad" },
+    "یافت آباد شمالی": { "id": "191", "slug": "ebrahim-abad" },
+    "یوسف‌آباد": { "id": "90", "slug": "yousef-abad" }
+    };
 
-    let selectedDistricts = [];
-
+    const listContainer = document.getElementById('districtList');
     const searchInput = document.getElementById('searchInput');
-    const districtList = document.getElementById('districtList');
     const submitBtn = document.getElementById('submitBtn');
+    const selectedDistricts = new Map();
 
-    function normalizeText(text) {
-      return text.replace(/[\s\u200C]/g, '').replace(/ي/g, 'ی').replace(/ك/g, 'ک').toLowerCase();
-    }
+    // 🔴 تابع رندر زنده لیست محله‌ها
+    function renderDistricts(filter = "") {
+      listContainer.innerHTML = "";
+      
+      Object.keys(districts).forEach(name => {
+        if (name.includes(filter)) {
+          const item = districts[name];
+          const isChecked = selectedDistricts.has(name);
 
-    function renderList(filterText = '') {
-      districtList.innerHTML = '';
-      const cleanFilter = normalizeText(filterText);
+          const div = document.createElement('div');
+          div.className = "flex items-center justify-between p-3 border border-gray-200 rounded-xl bg-gray-50 hover:bg-gray-100 transition cursor-pointer select-none";
+          div.innerHTML = `
+            <span class="text-sm font-medium text-gray-800">${name}</span>
+            <input type="checkbox" value="${name}" ${isChecked ? 'checked' : ''} 
+                   class="w-5 h-5 text-blue-600 rounded focus:ring-blue-500 cursor-pointer">
+          `;
 
-      const filtered = districts.filter(d => normalizeText(d.name).includes(cleanFilter));
+          const checkbox = div.querySelector('input');
 
-      if (filtered.length === 0) {
-        districtList.innerHTML = '<div class="text-center text-gray-400 text-sm py-4">محله‌ای پیدا نشد</div>';
-        return;
-      }
+          // قابلیت انتخاب با کلیک روی تمام قسمت‌های کارت محله
+          div.addEventListener('click', (e) => {
+            if (e.target !== checkbox) {
+              checkbox.checked = !checkbox.checked;
+            }
+            if (checkbox.checked) {
+              selectedDistricts.set(name, item);
+            } else {
+              selectedDistricts.delete(name);
+            }
+          });
 
-      filtered.forEach(d => {
-        const isChecked = selectedDistricts.some(item => item.id === d.id);
-        const item = document.createElement('label');
-        item.className = 'flex items-center justify-between p-3 bg-gray-50 rounded-xl cursor-pointer';
-        item.innerHTML = `
-          <span class="text-sm font-medium text-black">${d.name}</span>
-          <input type="checkbox" value="${d.id}" ${isChecked ? 'checked' : ''} class="w-5 h-5 text-blue-600">
-        `;
-
-        item.querySelector('input').addEventListener('change', (e) => {
-          if (e.target.checked) {
-            selectedDistricts.push(d);
-          } else {
-            selectedDistricts = selectedDistricts.filter(item => item.id !== d.id);
-          }
-        });
-
-        districtList.appendChild(item);
+          listContainer.appendChild(div);
+        }
       });
     }
 
-    searchInput.addEventListener('input', (e) => renderList(e.target.value));
-
-    submitBtn.addEventListener('click', () => {
-      if (selectedDistricts.length === 0) {
-        tg.showAlert('لطفاً حداقل یک محله را انتخاب کنید.');
-        return;
-      }
-      tg.sendData(JSON.stringify(selectedDistricts));
+    // 🔴 جستجوی لحظه‌ای
+    searchInput.addEventListener('input', (e) => {
+      renderDistricts(e.target.value.trim());
     });
 
-    renderList();
+    // 🔴 نمایش اولیه
+    renderDistricts();
+
+    // 🔴 ارسال دیتای انتخاب‌شده به ربات تلگرام
+    submitBtn.addEventListener('click', () => {
+      if (selectedDistricts.size === 0) {
+        tg.showAlert("لطفاً حداقل یک محله را انتخاب کنید.");
+        return;
+      }
+
+      const resultData = Array.from(selectedDistricts.entries()).map(([name, data]) => ({
+        name: name,
+        id: data.id,
+        slug: data.slug
+      }));
+
+      tg.sendData(JSON.stringify(resultData));
+    });
   </script>
+
 </body>
 </html>
