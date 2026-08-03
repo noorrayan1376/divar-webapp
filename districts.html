@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>انتخاب محله</title>
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body { background-color: var(--tg-theme-bg-color, #ffffff); color: var(--tg-theme-text-color, #000000); font-family: sans-serif; }
+  </style>
+</head>
+<body class="p-4 flex flex-col h-screen">
+
+  <h2 class="text-lg font-bold mb-2">📍 انتخاب محله‌های مورد نظر</h2>
+  <p class="text-xs text-gray-500 mb-3">محله‌های مورد نظرت را جستجو و تیک بزن:</p>
+
+  <input type="text" id="searchInput" placeholder="🔍 جستجوی محله..." 
+         class="w-full p-2.5 border border-gray-300 rounded-xl mb-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 text-black">
+
+  <div id="districtList" class="flex-1 overflow-y-auto space-y-2 mb-4 pr-1"></div>
+
+  <button id="submitBtn" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-xl font-bold text-sm">
+    تأیید و ثبت محله‌ها
+  </button>
+
+  <script>
+    const tg = window.Telegram.WebApp;
+    tg.expand();
+
+    // 🔴 لیست نمونه محله‌ها (بعداً میتونی کاملترش کنی)
+    const districts = [
+      { id: "1", name: "سعادت‌آباد" },
+      { id: "2", name: "شهرک غرب" },
+      { id: "3", name: "نیاوران" },
+      { id: "4", name: "تجریش" },
+      { id: "5", name: "پونک" },
+      { id: "6", name: "صادقیه" },
+      { id: "7", name: "تهرانپارس" },
+      { id: "8", name: "ونک" },
+      { id: "9", name: "جنت‌آباد" },
+      { id: "10", name: "ستارخان" }
+    ];
+
+    let selectedDistricts = [];
+
+    const searchInput = document.getElementById('searchInput');
+    const districtList = document.getElementById('districtList');
+    const submitBtn = document.getElementById('submitBtn');
+
+    function normalizeText(text) {
+      return text.replace(/[\s\u200C]/g, '').replace(/ي/g, 'ی').replace(/ك/g, 'ک').toLowerCase();
+    }
+
+    function renderList(filterText = '') {
+      districtList.innerHTML = '';
+      const cleanFilter = normalizeText(filterText);
+
+      const filtered = districts.filter(d => normalizeText(d.name).includes(cleanFilter));
+
+      if (filtered.length === 0) {
+        districtList.innerHTML = '<div class="text-center text-gray-400 text-sm py-4">محله‌ای پیدا نشد</div>';
+        return;
+      }
+
+      filtered.forEach(d => {
+        const isChecked = selectedDistricts.some(item => item.id === d.id);
+        const item = document.createElement('label');
+        item.className = 'flex items-center justify-between p-3 bg-gray-50 rounded-xl cursor-pointer';
+        item.innerHTML = `
+          <span class="text-sm font-medium text-black">${d.name}</span>
+          <input type="checkbox" value="${d.id}" ${isChecked ? 'checked' : ''} class="w-5 h-5 text-blue-600">
+        `;
+
+        item.querySelector('input').addEventListener('change', (e) => {
+          if (e.target.checked) {
+            selectedDistricts.push(d);
+          } else {
+            selectedDistricts = selectedDistricts.filter(item => item.id !== d.id);
+          }
+        });
+
+        districtList.appendChild(item);
+      });
+    }
+
+    searchInput.addEventListener('input', (e) => renderList(e.target.value));
+
+    submitBtn.addEventListener('click', () => {
+      if (selectedDistricts.length === 0) {
+        tg.showAlert('لطفاً حداقل یک محله را انتخاب کنید.');
+        return;
+      }
+      tg.sendData(JSON.stringify(selectedDistricts));
+    });
+
+    renderList();
+  </script>
+</body>
+</html>
